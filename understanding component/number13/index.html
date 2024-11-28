@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #topmain {
+            width: 85%;
+            margin: auto;
+            display: flex;
+            justify-content: space-around;
+        }
+        #card {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            width: 85%;
+            margin: auto;
+            gap: 10px;
+            align-items: center;
+        }
+        #parentCard {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+
+        }
+        #button {
+            padding: 10px;
+            cursor: pointer;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            border: 1px solid black;
+
+
+        }
+        #button:hover{
+            background-color:#b498ed ;
+
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+
+function Topdisplay(){
+    return (
+        <div id="topmain">
+            <div style={{padding:"10px"}}>
+                <h1>The Right Plan for <span style={{color:"#a079ec"}}> your Business</span></h1>
+            </div>
+            <div style={{padding:"10px"}}>
+               <h3 >Technology has revolutionized the way we live, work, and interact with the world.</h3>
+            </div>
+        </div>
+    )
+}
+
+function Rundiv(){
+    let cardData=[
+  {
+    "plan_name": "Starter",
+    "features": [
+      "1 lorem ipsum",
+      "Lorem ipsum dolor",
+      "Monthly Updates"
+    ],
+    "price": "Free"
+  },
+  {
+    "plan_name": "Lorem Plus",
+    "features": [
+      "1 lorem ipsum",
+      "Lorem ipsum dolor",
+      "Monthly Updates"
+    ],
+    "price": "$32.00"
+  },
+  {
+    "plan_name": "Lorem Pro",
+    "features": [
+      "1 lorem ipsum",
+      "Lorem ipsum dolor",
+      "Monthly Updates"
+    ],
+    "price": "$50.00"
+  }
+]
+
+    return (
+        <div id="parentCard">
+            {
+                cardData.map((ele,i)=>{
+                    return(
+                        <div id="card">
+                        <h2>{ele.plan_name}</h2>
+                        <ul>
+                            <li>{ele.features[0]}</li>
+                            <li>{ele.features[1]}</li>
+                            <li>{ele.features[2]}</li>
+                        </ul> 
+                        <h1>{ele.price}</h1>  
+                        <div>
+                            <button id="button">Get Started</button> 
+                        </div>
+                        
+                        </div>
+                    )
+                })
+            }
+
+        </div>    
+    )
+
+}
+
+
+function App() {
+    return (
+        <>
+            <Topdisplay/>
+            <Rundiv/>
+        </>
+    );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+
+</script>
