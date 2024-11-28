@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #parent {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 20px;
+           
+        }
+        #card {
+            border: 1px solid black;
+            padding: 10px;
+
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+
+
+function Container(){
+    const cardData = [
+  {
+    "title": "About Us",
+    "content": "We are a team of professionals delivering innovative solutions since 2010."
+  },
+  {
+    "title": "Services",
+    "content": "We specialize in software development, cloud solutions, and digital transformation."
+  },
+  {
+    "title": "Careers",
+    "content": "Join our team and work on exciting projects. Apply at careers@company.com."
+  },
+  {
+    "title": "Customer Support",
+    "content": "We are available 24/7 for assistance. Email us at support@company.com."
+  },
+  {
+    "title": "Testimonials",
+    "content": "“Excellent service and support! Highly recommend!” - A Happy Customer."
+  },
+  {
+    "title": "Upcoming Events",
+    "content": "Join our Annual Tech Fest on January 25th, 2024, in Hyderabad."
+  },
+  {
+    "title": "Contact Us",
+    "content": "Reach us at +91 9876543210 or email us at info@company.com."
+  },
+  {
+    "title": "Our Mission",
+    "content": "To empower businesses with cutting-edge technology and unparalleled service."
+  },
+  {
+    "title": "Our Vision",
+    "content": "To be the global leader in innovative technology solutions by 2030."
+  },
+  {
+    "title": "Our Values",
+    "content": "Integrity, Innovation, Excellence, and Customer Focus."
+  },
+  {
+    "title": "Team",
+    "content": "Our team consists of industry experts with years of experience."
+  },
+  {
+    "title": "Portfolio",
+    "content": "We have delivered 200+ successful projects across various industries."
+  },
+  {
+    "title": "Achievements",
+    "content": "Awarded as the Best IT Services Provider for three consecutive years."
+  },
+  {
+    "title": "Blog",
+    "content": "Read our latest articles on technology and innovation at blog.company.com."
+  },
+  {
+    "title": "News",
+    "content": "We recently partnered with ABC Tech to enhance AI-based solutions."
+  },
+  {
+    "title": "FAQ",
+    "content": "Find answers to common queries on our FAQ page at company.com/faq."
+  },
+  {
+    "title": "Products",
+    "content": "Explore our range of software products tailored to your needs."
+  },
+  {
+    "title": "Case Studies",
+    "content": "Learn how we've helped businesses achieve their goals with our solutions."
+  },
+  {
+    "title": "Resources",
+    "content": "Download whitepapers, eBooks, and guides from our Resources page."
+  },
+  {
+    "title": "Partnerships",
+    "content": "We collaborate with leading organizations to drive mutual growth."
+  }
+]
+
+    return(
+        <div id="parent">
+                {
+                    cardData.map((ele,i)=>{
+                        return(
+                            <div key={i} id="card">
+                                <p><b>Title: </b>{ele.title}</p>
+                                <p><b>Content: </b>{ele.content}</p>
+                            </div>    
+                        )
+                    })
+                }
+        </div>   
+    )
+}
+
+function App() {
+    return (
+        <>
+           <Container/>
+        </>
+    );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+
+</script>

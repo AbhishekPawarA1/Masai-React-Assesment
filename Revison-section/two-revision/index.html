@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter</title>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+
+let {useRef,useState}=React
+function Input(){
+
+    let impref=useRef(null)
+    function Handleclick(){
+        console.log(impref.current.value)
+    }
+    return(
+        <>
+        <div>
+            <input type="text" ref={impref} placeholder="Name"/>  
+            <button onClick={Handleclick}>Search</button>                
+        </div>
+
+        </>
+    )
+}
+
+
+function App(){
+    return(
+        <>
+        <Input/>
+        </>
+    )
+}
+
+const root=ReactDOM.createRoot(document.getElementById("root"))
+root.render(<App/>)    
+</script>

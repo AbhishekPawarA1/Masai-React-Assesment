@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter</title>
+    <style>
+        #main {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+
+function Divhover(){
+    let arr=["dev1","dev2","dev3","dev4","dev5","dev6"]
+
+    function handleHover(ele){
+        console.log(ele)
+    }
+    return(
+        <div id="main">
+            {
+                arr.map((ele,i)=>{
+                    return(
+                    
+                    <div 
+                        onMouseEnter={()=>handleHover(ele)}
+                        key={i} 
+                        style={{border:"1px solid black",padding:"20px",cursor:"pointer"}
+                    }>
+                        <h2>{ele}</h2>
+                        
+                    </div>
+                    )
+                })
+            }
+        </div>
+    )
+}
+
+
+
+function App(){
+    return(
+        <>
+        <Divhover/>
+        </>
+    )
+}
+
+const root=ReactDOM.createRoot(document.getElementById("root"))
+root.render(<App/>)    
+</script>
