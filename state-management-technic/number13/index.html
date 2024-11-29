@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #main {
+            display: grid;
+            grid-template-columns: repeat(5,1fr);
+            gap: 20px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        #card {
+            border: 1px solid black;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+
+function Shoopinglist(){
+
+    let items=React.useRef(null)
+    let quan=React.useRef(null)
+    let [newlist,setnewlist]=React.useState([])
+
+    function handleinput(){
+        let list={
+            Item : items.current.value,
+            Quantity: quan.current.value
+        }
+
+        setnewlist(pre=>[...pre,list])
+
+        items.current.value=""
+        quan.current.value=""
+        
+    }
+    
+    function handledelete(index) {
+        setnewlist(pre => pre.filter((_, i) => i !== index));
+    }
+
+    function handleclearalldata() {
+        setnewlist([]);
+    }
+    
+
+    return(
+        <>
+        <div style={{border:"1px solid black" ,padding:"10px", width:"180px"}}>
+        <input type="text" ref={items}  placeholder="Item Name"/>
+        <br/>
+        <br/>
+        <input type="text" ref={quan} placeholder="Quantity"/>
+        <br/>
+        <br/>
+        <button onClick={handleinput}>Add to List</button>
+        <button onClick={handleclearalldata}>Clear all data</button>
+        </div>
+        <div id="main">
+           {
+            newlist.map((ele,i)=>{
+                return(
+                    <div id="card" key={i}>
+                        <p><b>Item: </b>{ele.Item} </p>
+                        <p><b>Quantity: </b>{ele.Quantity}</p>
+                        <button onClick={()=>handledelete(i)}>Delete</button>
+                    </div>
+                )
+            })
+
+           }    
+        </div>
+        </>
+    )
+}
+
+
+function App() {
+    return (
+        <>
+            <h1>Shoopinglist</h1>
+            <Shoopinglist/>
+        </>
+    );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+
+</script>
