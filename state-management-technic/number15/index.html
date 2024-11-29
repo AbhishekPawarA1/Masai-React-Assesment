@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-inputs, .filters {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .task-inputs input, .task-inputs select, .filters select {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .task-inputs button, .filters button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .task-inputs button:hover, .filters button:hover {
+            background-color: #0056b3;
+        }
+
+        .task-list {
+            margin-top: 20px;
+        }
+
+        .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            background-color: #f9f9f9;
+        }
+
+        .task button {
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .task button:hover {
+            background-color: #d32f2f;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: #aaa;
+        }
+
+        .high-priority {
+            background-color: #ff4d4d;
+        }
+
+        .medium-priority {
+            background-color: #ffcc00;
+        }
+
+        .low-priority {
+            background-color: #66ff66;
+        }
+
+        .filters label {
+            font-size: 1.1rem;
+        }
+
+        .filters select {
+            width: 150px;
+        }
+
+        /* Flexbox for task item */
+        .task .task-title {
+            flex-grow: 1;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .task button {
+            margin-left: 10px;
+        }
+
+        /* Adjust for mobile */
+        @media (max-width: 600px) {
+            .task-inputs, .filters {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .task-inputs input, .task-inputs select, .filters select {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .task button {
+                margin-left: 0;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+    const { useState } = React;
+
+    // Task Manager Component
+    function TaskManager() {
+        const [tasks, setTasks] = useState([]);
+        const [title, setTitle] = useState('');
+        const [priority, setPriority] = useState('High');
+        const [filter, setFilter] = useState({ priority: 'All', status: 'All' });
+
+        // Add a task
+        const addTask = () => {
+            if (title.trim() === '') return;
+            const newTask = {
+                id: Date.now(),
+                title,
+                priority,
+                status: 'Incomplete'
+            };
+            setTasks([...tasks, newTask]);
+            setTitle('');
+        };
+
+        // Mark task as complete/incomplete
+        const toggleTaskStatus = (id) => {
+            setTasks(tasks.map(task =>
+                task.id === id ? { ...task, status: task.status === 'Incomplete' ? 'Completed' : 'Incomplete' } : task
+            ));
+        };
+
+        // Delete a task
+        const deleteTask = (id) => {
+            setTasks(tasks.filter(task => task.id !== id));
+        };
+
+        // Filter tasks
+        const filteredTasks = tasks.filter(task => {
+            const priorityMatch = filter.priority === 'All' || task.priority === filter.priority;
+            const statusMatch = filter.status === 'All' || task.status === filter.status;
+            return priorityMatch && statusMatch;
+        });
+
+        // Sort tasks by priority (High -> Medium -> Low)
+        const sortedTasks = filteredTasks.sort((a, b) => {
+            const priorityOrder = { 'High': 1, 'Medium': 2, 'Low': 3 };
+            return priorityOrder[a.priority] - priorityOrder[b.priority];
+        });
+
+        return (
+            <div className="container">
+                <h1>Task Manager</h1>
+                <div className="task-inputs">
+                    <input 
+                        type="text" 
+                        placeholder="Task Title" 
+                        value={title} 
+                        onChange={(e) => setTitle(e.target.value)} 
+                    />
+                    <select onChange={(e) => setPriority(e.target.value)} value={priority}>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                    <button onClick={addTask}>Add Task</button>
+                </div>
+                <div className="filters">
+                    <label>
+                        Priority:
+                        <select onChange={(e) => setFilter({ ...filter, priority: e.target.value })} value={filter.priority}>
+                            <option value="All">All</option>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </label>
+                    <label>
+                        Status:
+                        <select onChange={(e) => setFilter({ ...filter, status: e.target.value })} value={filter.status}>
+                            <option value="All">All</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Incomplete">Incomplete</option>
+                        </select>
+                    </label>
+                </div>
+                <div className="task-list">
+                    {sortedTasks.map(task => (
+                        <div key={task.id} className={`task ${task.priority.toLowerCase()}-priority`}>
+                            <div className="task-title">
+                                <span className={task.status === 'Completed' ? 'completed' : ''}>
+                                    {task.title}
+                                </span>
+                            </div>
+                            <button onClick={() => toggleTaskStatus(task.id)}>
+                                {task.status === 'Completed' ? 'Mark Incomplete' : 'Mark Complete'}
+                            </button>
+                            <button onClick={() => deleteTask(task.id)}>Delete</button>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
+    // Render the TaskManager component into the DOM
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<TaskManager />);
+</script>
+</body>
+</html>
