@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management System</title>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js"></script>
+<script type="text/babel">
+        // Your React Component code here
+        const { useState, useEffect } = React;
+
+        const UserManagement = () => {
+            const [users, setUsers] = useState([]);
+            const [name, setName] = useState('');
+            const [email, setEmail] = useState('');
+
+            // Fetch users from Firebase
+            useEffect(() => {
+                fetchUsers();
+            }, []);
+
+            const fetchUsers = async () => {
+                try {
+                    const response = await axios.get('https://crud-fdda1-default-rtdb.firebaseio.com/users.json');
+                    setUsers(response.data ? Object.entries(response.data) : []);
+                } catch (error) {
+                    console.error("Error fetching users: ", error);
+                }
+            };
+
+            const addUser = async () => {
+                if (validateForm(name, email)) {
+                    try {
+                        await axios.post('https://crud-fdda1-default-rtdb.firebaseio.com/users.json', { name, email });
+                        fetchUsers();
+                        setEmail("")
+                        setName("")
+                    } catch (error) {
+                        console.error("Error adding user: ", error);
+                    }
+                }
+            };
+
+            const editUser = async (id, name, email) => {
+                try {
+                    await axios.patch(`https://crud-fdda1-default-rtdb.firebaseio.com/users/${id}.json`, { name, email });
+                    fetchUsers();
+                } catch (error) {
+                    console.error("Error editing user: ", error);
+                }
+            };
+
+            const deleteUser = async (id) => {
+                try {
+                    await axios.delete(`https://crud-fdda1-default-rtdb.firebaseio.com/users/${id}.json`);
+                    fetchUsers();
+                } catch (error) {
+                    console.error("Error deleting user: ", error);
+                }
+            };
+
+            const validateForm = (name, email) => {
+                const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                if (!name || !email) {
+                    alert('Name and Email are required');
+                    return false;
+                }
+                if (!emailPattern.test(email)) {
+                    alert('Please enter a valid email');
+                    return false;
+                }
+                return true;
+            };
+
+            return (
+                <div>
+                    <h1>User Management</h1>
+                    <form onSubmit={e => e.preventDefault()}>
+                        <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Name" />
+                        <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
+                        <button type="button" onClick={addUser}>Add User</button>
+                    </form>
+
+                    <h2>Users List</h2>
+                    <ul>
+                        {users.map(([id, user]) => (
+                            <li key={id}>
+                                {user.name} - {user.email}
+                                <button onClick={() => editUser(id, user.name, user.email)}>Edit</button>
+                                <button onClick={() => deleteUser(id)}>Delete</button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<UserManagement />, document.getElementById('root'));
+    </script>
+</body>
+</html>
