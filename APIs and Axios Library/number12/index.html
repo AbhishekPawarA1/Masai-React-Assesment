@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+
+
+function UserInput(){
+
+    let userref=React.useRef(null)
+    let [user,setuser]=React.useState([])
+
+    function handleclick(){
+
+        alert(`Username is Added: ${userref.current.value}`)
+        setuser([...user,userref.current.value])
+        userref.current.value=""
+  
+    }
+    return(
+        <>
+         <input type="text" placeholder="Username"  ref={userref}/>
+         <button onClick={handleclick}>Submit</button>
+
+         <div>
+           {
+            user.map((ele,i)=>{
+                return(
+                    <p style={{fontSize:"30px"}}key={i}><b>Username: </b>{ele}</p>
+                )
+            })
+           }    
+        </div>
+        </>
+    )
+}
+
+
+function App() {
+    return (
+        <>
+           <UserInput/>
+        </>
+    );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+
+</script>
