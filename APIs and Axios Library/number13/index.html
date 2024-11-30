@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+
+function Emailuser(){
+
+    let [email,setemail]=React.useState([])
+    let emailref=React.useRef(null)
+
+    function handleemail(){
+        if (emailref.current.value.endsWith("@gmail.com")){
+            setemail([...email,emailref.current.value])
+            emailref.current.value=""
+        }
+        else {
+            alert("only email is required")
+            emailref.current.value=""
+        }
+        
+    }
+    return(
+        <>
+            <input type="Email"  placeholder="@email" ref={emailref}/>
+            <button onClick={handleemail}>Add Email</button>
+            <div>
+                {
+                    email.map((ele,i)=>{
+                    return(
+                        <div key={i}>
+                            <p><b>Email :</b>{ele}</p>
+                        </div>
+                    )
+                }) 
+                }   
+            </div>
+        </>
+    )
+}
+
+
+
+function App() {
+    return (
+        <>
+           <Emailuser/>
+        </>
+    );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+
+</script>
