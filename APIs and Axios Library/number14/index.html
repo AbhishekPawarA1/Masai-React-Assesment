@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js"></script>
+<script type="text/babel">
+
+function TaskList() {
+  const [tasks, setTasks] = React.useState([]);
+
+  const fetchData = () => {
+    axios("https://your-firebase-db.firebaseio.com/tasks.json")
+      .then((response) => {
+        const taskarray=Object.values(response.data || {});
+        setTasks(taskarray)
+      }) // Error here?
+      .catch((error) => console.log("Error fetching tasks:", error));
+  };
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      <h1>Task List</h1>
+      <ul>
+        {tasks.map((task,i) => (
+          <li key={i}>{task.name}</li> // Error here?
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+
+function App() {
+  return <TaskList />;
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+</script>
