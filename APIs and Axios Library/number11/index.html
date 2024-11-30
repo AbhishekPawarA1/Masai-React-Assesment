@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+
+function Username(){
+
+    let [username,setusername]=React.useState([])
+    let [input,setinput]=React.useState("")
+    function handlename(){
+        if (input.length==0){
+            alert("Username not be empty")
+        }
+        else {
+        alert(`Username Added: ${input}`)
+        console.log(`Username: ${input}`)
+
+        setusername([...username, input]);
+        setinput("")
+        }
+        
+    }
+    
+    return(
+        <>
+        <input type="text" placeholder="Username" value={input} onChange={(e)=> setinput(e.target.value)}/>
+        <button onClick={handlename}>Submit</button>
+
+        <div >
+            {
+                username.map((ele,i)=>{
+                    return(
+                        <div key={i} style={{border:"1px solid black",textalign:"center"}}>
+                        <h1>Username : {ele}</h1>
+                        </div>
+                    )
+                })
+            }   
+        </div>
+        </>
+    )
+}
+
+function App() {
+    return (
+        <>
+        <Username/>
+        </>
+    );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+
+</script>
