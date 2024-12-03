@@ -61,10 +61,10 @@ function Shoopinglist(){
     return(
         <>
         <div style={{border:"1px solid black" ,padding:"10px", width:"180px"}}>
-        <input type="text" ref={items}  placeholder="Item Name"/>
+        <input type="text" ref={items}  placeholder="Item Name" required/>
         <br/>
         <br/>
-        <input type="text" ref={quan} placeholder="Quantity"/>
+        <input type="text" ref={quan} placeholder="Quantity" required/>
         <br/>
         <br/>
         <button onClick={handleinput}>Add to List</button>

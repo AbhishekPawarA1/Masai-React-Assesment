@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #parent {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 20px;
+    }
+    img {
+      width: 100%;
+      height: 450px;
+    }
+    #childs {
+      border: 1px solid black;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js"></script>
+
+<script type="text/babel">
+
+let url="https://674c22ff54e1fca9290bbcfd.mockapi.io/api/users"
+
+let {useState,useEffect}=React
+
+
+function Showdata(){
+
+  let [user,setuser]=useState([])
+
+  useEffect(()=>{
+    fetchdata()
+  },[])
+
+  async function fetchdata() {
+    try {
+      let response= await axios.get(url)
+      setuser(response.data)
+      console.log(response.data.length)
+    } catch (error) {
+      console.log("issue in fetching data",error)
+    }
+  }
+  async function handledelete(id) {
+    try {
+      await axios.delete(`https://674c22ff54e1fca9290bbcfd.mockapi.io/api/users/${id}`)
+      setuser((previous)=>previous.filter((user)=>user.id !== id))
+    } catch (error) {
+      console.log("error is delete data",error)
+    }
+  }
+  
+  return(
+    <div id="parent">
+      {
+        user.map((users)=>{
+          return(
+            
+            <div key={users.id} id="childs">
+              <img src="{users.avater}" alt="Image" />
+              <h1>Name: {users.name}</h1>
+              <h1>Company: {users.company}</h1>
+              <h2>Salary: {users.salary}</h2>
+              <button style={{padding:"10px 25px"}} onClick={()=>handledelete(users.id)}>Delete</button>
+              
+            </div>  
+          )
+        })
+      }  
+    </div>
+  )
+}
+
+
+
+function App(){
+    return(
+        <>
+        <Showdata/>
+        </>
+    )
+}
+
+const root=ReactDOM.createRoot(document.getElementById("root"))
+root.render(<App/>)    
+</script>

@@ -22,9 +22,9 @@ function TaskList() {
   const fetchData = () => {
     axios("https://your-firebase-db.firebaseio.com/tasks.json")
       .then((response) => {
-        const taskarray=Object.values(response.data || {});
-        setTasks(taskarray)
-      }) // Error here?
+        const tasksArray = Object.values(response.data || {}); // Ensure data is extracted properly
+        setTasks(tasksArray);
+      })
       .catch((error) => console.log("Error fetching tasks:", error));
   };
 
@@ -36,14 +36,13 @@ function TaskList() {
     <div>
       <h1>Task List</h1>
       <ul>
-        {tasks.map((task,i) => (
-          <li key={i}>{task.name}</li> // Error here?
+        {tasks.map((task, i) => (
+          <li key={i}>{task.error || "Unnamed Task"}</li> // Handle missing 'name' gracefully
         ))}
       </ul>
     </div>
   );
 }
-
 
 function App() {
   return <TaskList />;

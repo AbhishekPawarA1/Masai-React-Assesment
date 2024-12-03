@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #parent {
+            box-shadow: rgba(7, 7, 255, 0.25) 0px 2px 5px -1px, rgba(255, 6, 6, 0.3) 0px 1px 3px -1px;
+            display: flex;
+            justify-content: space-around;
+        }
+        #home-page {
+            text-align: center;
+        }
+        a {
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+
+function Website(){
+    return(
+        <>
+        <h1 style={{textAlign:"center"}}>Webpage</h1>
+        <div id="parent">
+            <h3><a href="#">Home</a></h3>
+            <h3><a href="#">About</a></h3>
+            <h3><a href="#">Contact</a></h3>
+        </div>
+        <h1 id="home-page">Welcome</h1>
+        </>
+    )
+}
+
+function Footer(){
+    return(
+        <>
+        <footer style={{width:"100%",position:"fixed",bottom:"0",backgroundColor:"black"}}>
+            <p style={{textAlign:"center",color:"white"}}>&copy; 2024 Your Company Name. All rights reserved.</p>
+        </footer>
+        </>
+    )
+}
+
+function App() {
+    return (
+        <>
+         <Website/>
+         <Footer/>
+        </>
+    );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+
+</script>
