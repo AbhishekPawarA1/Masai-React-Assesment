@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #child {
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
+            padding: 20px;
+            width: 40%;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js"></script>
+<script type="text/babel">
+
+let url="https://official-joke-api.appspot.com/random_joke/"
+
+function RandomJokes(){
+    let [data,setdata]= React.useState([])
+
+    async function fetchdata() {
+        let response=await axios.get(url)
+        setdata(response.data)
+        
+    }
+
+    return(
+        <>
+        <button onClick={fetchdata} style={{padding:"10px",cursor:"pointer"}}>Get Another Joke</button>
+        <h2>Joke</h2>
+        <div >
+                { data && (
+                    <div id="child">
+                        <h3>{data.setup}</h3>
+                        <p>{data.punchline}</p>
+                    </div>
+                )
+            }
+                
+            
+        </div>
+        </>
+    )
+}
+
+function App() {
+    return (
+        <>
+         <RandomJokes/>
+        </>
+    );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+
+</script>
