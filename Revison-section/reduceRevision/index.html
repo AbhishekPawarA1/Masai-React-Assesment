@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter</title>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+
+let {useEffect,useState,useReducer}=React
+
+function reducerfunction(state,action){
+
+    switch(action.type){
+        case "inc" : 
+        return{
+            ...state,
+            [action.id]:state[action.id] + 1
+        }
+
+        case "dec" : 
+        return{
+            ...state,
+            [action.id]:state[action.id] - 1
+        }
+        default :
+        return state
+    }
+
+}
+
+function MultipleCounter(){
+
+    let initialstate={
+        countA:0,
+        countB:1,
+        countC:5
+    }
+
+    let [state,dispatch]=useReducer(reducerfunction,initialstate)
+
+    console.log(state)
+    return(
+        <div>
+           <button onClick={()=>dispatch({type:"inc",id:"countA"})}>{state.countA}</button>
+           <button onClick={()=>dispatch({type:"dec",id:"countB"})}>{state.countB}</button>
+           <button onClick={()=>dispatch({type:"inc",id:"countC"})}>{state.countC}</button>    
+        </div>
+    )
+}
+
+
+function App(){
+    return(
+        <>
+        <MultipleCounter/>
+        </>
+    )
+}
+
+const root=ReactDOM.createRoot(document.getElementById("root"))
+root.render(<App/>)    
+</script>
