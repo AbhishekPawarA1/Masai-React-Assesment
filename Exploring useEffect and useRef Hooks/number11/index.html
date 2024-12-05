@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+
+let {useEffect,useRef,useState}=React
+
+
+
+function Mount(){
+    
+    let [toggle,settoggle]=useState(true)
+
+    
+
+    useEffect(()=>{
+    console.log("Mounted")
+
+    return()=>console.log("unmounted")
+    },[toggle])
+
+    return(
+        <>
+        <button onClick={()=>settoggle(!toggle)} style={{padding:"10px",cursor:"pointer"}}>{toggle ? "Mounted" : "unMounted"}</button>
+        <div>
+           {
+            toggle ? <h1>Component is Mounted</h1>
+            : <h1>Component is Unmounted</h1>
+           }
+        </div>
+        </>
+
+    )
+}
+
+
+function App() {
+    return (
+        <>
+         <Mount/>
+        </>
+    );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+
+</script>
